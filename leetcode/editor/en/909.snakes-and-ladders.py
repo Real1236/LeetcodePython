@@ -12,8 +12,9 @@ from typing import List
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
         side_length = len(board)
-        squares = deque([1])
+        squares = deque([self.boustrophedon_coordinate(1, side_length)])
         count = 1
+        visit = set()
         while squares:
             num_squares = len(squares)
             for i in range(num_squares):
@@ -25,8 +26,11 @@ class Solution:
                         row, col = self.boustrophedon_coordinate(board[row][col], side_length)
                     if self.boustrophedon_number((row, col), side_length) >= side_length ** 2:
                         return count
-                    squares.append((row, col))
+                    if (row,col) not in visit:
+                        squares.append((row, col))
+                        visit.add((row,col))
             count += 1
+        return -1
                     
     def boustrophedon_coordinate(self, n: int, side_length: int) -> tuple:
         row = (n - 1) // side_length
@@ -40,10 +44,11 @@ class Solution:
         col = coord[1]
         if row % 2 == 0:
             return (row * side_length) + col + 1
-        return (row * side_length) + (side_length - col) + 1
+        return (row * side_length) + (side_length - col)
 
         
 # @lc code=end
 solution = Solution()
-board = [[-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1],[-1,35,-1,-1,13,-1],[-1,-1,-1,-1,-1,-1],[-1,15,-1,-1,-1,-1]]
+# board = [[-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1],[-1,-1,-1,-1,-1,-1],[-1,35,-1,-1,13,-1],[-1,-1,-1,-1,-1,-1],[-1,15,-1,-1,-1,-1]]
+board = [[1,1,-1],[1,1,1],[-1,1,1]]
 print(solution.snakesAndLadders(board))
