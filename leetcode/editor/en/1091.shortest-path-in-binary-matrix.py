@@ -11,6 +11,9 @@ from typing import List
 
 class Solution:
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        if grid[0][0]:
+            return -1
+        
         def isValid(row, col):
             return row >= 0 and col >= 0 and row < len(grid) and col < len(grid[0])
 
@@ -34,5 +37,5 @@ class Solution:
         
 # @lc code=end
 solution = Solution()
-grid = [[0,0,0],[1,1,0],[1,1,0]]
+grid = [[1,0,0],[1,1,0],[1,1,0]]
 print(solution.shortestPathBinaryMatrix(grid))
