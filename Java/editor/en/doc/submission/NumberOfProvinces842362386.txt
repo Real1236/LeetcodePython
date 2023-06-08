@@ -1,0 +1,35 @@
+class Solution {
+    public int findCircleNum(int[][] isConnected) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int i = 1; i <= isConnected.length; i++)
+            graph.put(i, new ArrayList<>());
+        for (int row = 0; row < isConnected.length; row++) {
+            for (int col = 0; col < isConnected.length; col++) {
+                if (col <= row || isConnected[row][col] == 0)
+                    continue;
+                graph.get(row + 1).add(col + 1);
+                graph.get(col + 1).add(row + 1);
+            }
+        }
+
+        Set<Integer> visited = new HashSet<>();
+        int numOfIslands = 0;
+        for (int i = 1; i <= isConnected.length; i++) {
+            if (visited.contains(i)) continue;
+            dfs(i, graph, visited);
+            numOfIslands++;
+        }
+        return numOfIslands;
+    }
+
+    private void dfs(int city, Map<Integer, List<Integer>> graph, Set<Integer> visited) {
+        visited.add(city);
+        for (int connectedCities : graph.get(city)) {
+            if (visited.contains(connectedCities)) continue;
+            dfs(connectedCities, graph, visited);
+        }
+    }
+}
+
+//runtime:10 ms
+//memory:54.2 MB
