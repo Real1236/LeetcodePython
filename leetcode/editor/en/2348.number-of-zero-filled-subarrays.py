@@ -40,6 +40,9 @@ class Solution:
             
             res += map[count]
             count = 0
+            
+        res += map[count]
+        count = 0
         
         return res
 
